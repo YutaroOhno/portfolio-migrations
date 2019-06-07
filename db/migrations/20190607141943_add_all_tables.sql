@@ -3,16 +3,16 @@
 -- SQL in section 'Up' is executed when this migration is applied
 CREATE TABLE users (
     id         INT(10) UNSIGNED AUTO_INCREMENT,
-    nickname   VARCHAR(255) NOT NULL,
-    avatar     VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY(id)
 );
 
-CREATE TABLE introductions (
+CREATE TABLE profiles (
     user_id      INT(10) UNSIGNED  NOT NULL,
-    introduction VARCHAR(2000)     NOT NULL,
+    nickname     VARCHAR(255)      NOT NULL,
+    introduction TEXT              NOT NULL,
+    avatar       VARCHAR(255),
     created_at   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at   TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT fk_introduction_user_id
@@ -110,5 +110,5 @@ DROP TABLE work_photos;
 DROP TABLE works;
 DROP TABLE links;
 DROP TABLE carriers;
-DROP TABLE introductions;
+DROP TABLE profiles;
 DROP TABLE users;
