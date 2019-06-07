@@ -11,8 +11,8 @@ CREATE TABLE users (
 );
 
 CREATE TABLE introductions (
-    user_id      INT(10) UNSIGNED NOT NULL,
-    introduction VARCHAR(2000) NOT NULL,
+    user_id      INT(10) UNSIGNED  NOT NULL,
+    introduction VARCHAR(2000)     NOT NULL,
     created_at   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at   TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT fk_introduction_user_id
@@ -24,8 +24,8 @@ CREATE TABLE introductions (
 
 CREATE TABLE carriers (
     user_id         INT(10) UNSIGNED NOT NULL,
-    compoany_name   VARCHAR(255),
-    job_name        VARCHAR(255),
+    compoany_name   VARCHAR(255)     NOT NULL,
+    job_name        VARCHAR(255)     NOT NULL,
     start_date      DATETIME,
     end_date        DATETIME,
     created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -40,8 +40,8 @@ CREATE TABLE carriers (
 CREATE TABLE links (
     id              INT(10) UNSIGNED AUTO_INCREMENT,
     user_id         INT(10) UNSIGNED NOT NULL,
-    title           VARCHAR(255),
-    url             VARCHAR(255),
+    title           VARCHAR(255)     NOT NULL,
+    url             VARCHAR(255)     NOT NULL,
     created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT fk_link_user_id
@@ -54,8 +54,8 @@ CREATE TABLE links (
 CREATE TABLE works (
     id              INT(10) UNSIGNED AUTO_INCREMENT,
     user_id         INT(10) UNSIGNED NOT NULL,
-    title           VARCHAR(255),
-    sub_title       VARCHAR(255),
+    title           VARCHAR(255)     NOT NULL,
+    sub_title       VARCHAR(255)     NOT NULL,
     description     TEXT,
     url             VARCHAR(255),
     created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -79,8 +79,33 @@ CREATE TABLE work_photos (
     PRIMARY KEY(work_id)
 );
 
+CREATE TABLE skills (
+    id              INT(10) UNSIGNED AUTO_INCREMENT,
+    name            VARCHAR(255)     NOT NULL,
+    created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY(id)
+) COMMENT="スキルのマスタテーブル";
+
+CREATE TABLE user_skills (
+    user_id         INT(10) UNSIGNED,
+    skill_id        INT(10) UNSIGNED,
+    created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_user_skill_user_id
+        FOREIGN KEY (user_id) REFERENCES users(id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    CONSTRAINT fk_user_skill_skill_id
+        FOREIGN KEY (skill_id) REFERENCES skills(id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    PRIMARY KEY(user_id, skill_id)
+) COMMENT="ユーザーとスキルの中間テーブル";
+
 -- +goose Down
 -- SQL section 'Down' is executed when this migration is rolled back
+DROP TABLE user_skills;
+DROP TABLE skills;
 DROP TABLE work_photos;
 DROP TABLE works;
 DROP TABLE links;
