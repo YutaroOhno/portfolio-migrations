@@ -90,6 +90,7 @@ CREATE TABLE skills (
 CREATE TABLE user_skills (
     user_id         INT(10) UNSIGNED,
     skill_id        INT(10) UNSIGNED,
+    level           TINYINT(1),
     created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_user_skill_user_id
         FOREIGN KEY (user_id) REFERENCES users(id)
