@@ -3,9 +3,13 @@ test:
     driver: postgres
     open: user=liam dbname=tester sslmode=disable
 
+# development:
+#     driver: mymysql
+#     open: tcp:localhost:3306*portfolio_api_development/yutaro/yutaro
+
 development:
-    driver: mymysql
-    open: tcp:localhost:3306*portfolio_api_development/yutaro/yutaro
+    driver: postgres
+    open: user=yutaro dbname=portfolio_api_development sslmode=disable password=yutaro
 
 production:
     driver: postgres
